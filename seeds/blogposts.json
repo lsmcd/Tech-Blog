@@ -1,0 +1,22 @@
+[
+    {
+        "title": "Bob's first blog",
+        "content": "This site rocks",
+        "user_id": 1
+    },
+    {
+        "title": "Rob's first blog",
+        "content": "Love this website",
+        "user_id": 2
+    },
+    {
+        "title": "Ron's first blog",
+        "content": "Great stuff",
+        "user_id": 3
+    },
+    {
+        "title": "Rob's second blog",
+        "content": "What a cool place to post blogs",
+        "user_id": 2
+    }
+]
