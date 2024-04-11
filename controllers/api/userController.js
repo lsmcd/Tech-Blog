@@ -2,7 +2,6 @@ const router = require("express").Router();
 const { Users } = require('../../models');
 
 router.post("/signup", (req, res) => {
-    console.log("posted")
     try {
         Users.create({
             username: req.body.username,
@@ -43,6 +42,15 @@ router.post("/signin", async (req, res) => {
         });
     } catch (err) {
         console.log(err);
+        res.status(400).json(err);
+    }
+});
+router.post("/signout", (req, res) => {
+    try {
+        req.session.destroy(() => {
+            res.json({message: "Successful log out"});
+        });
+    } catch (err) {
         res.status(400).json(err);
     }
 });

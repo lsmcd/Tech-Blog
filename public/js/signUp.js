@@ -6,11 +6,11 @@ form.addEventListener("submit", (event) => {
     const password = document.getElementById("password").value;
     if (username && password) {
         fetch("/api/users/signup", {
-            method: "POST",
-            body: JSON.stringify({ username, password }),
-            headers: {"Content-Type": "application/json"}
+            method: "post",
+            body: json.stringify({ username, password }),
+            headers: {"content-type": "application/json"}
         })
-        .then(() => window.location = "/")
+        .then(() => res.ok ? window.location = "/" : alert("Failed to log in"))
         .catch((err) => console.log(err));
     }
 });
