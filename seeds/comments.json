@@ -1,0 +1,22 @@
+[
+    {
+        "content": "Absolutely it does!",
+        "blogpost_id": 1,
+        "user_id": 3
+    },
+    {
+        "content": "I agree, it's such a great website",
+        "blogpost_id": 2,
+        "user_id": 2
+    },
+    {
+        "content": "Best website",
+        "blogpost_id": 3,
+        "user_id": 1
+    },
+    {
+        "content": "Love writing comments here too!",
+        "blogpost_id": 3,
+        "user_id": 2
+    }
+]
