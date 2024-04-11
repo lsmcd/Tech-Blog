@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { BlogPosts } = require('../models');
+const { BlogPosts, Users, Comments } = require('../models');
 
 const withAuth = require("../utils/auth");
 
@@ -32,6 +32,58 @@ router.get("/signOut", (req, res) => {
 });
 router.get("/dashboard", withAuth, (req, res) => {
     res.render("dashboard");
+});
+router.get("/blogposts/:id", (req, res) => {
+    try {
+        BlogPosts.findOne({
+            where: {
+                id: req.params.id
+            },
+            raw: true
+        })
+        .then((blogpost) => {
+            if (blogpost){
+                Users.findOne({
+                    where: {
+                        id: blogpost.user_id
+                    },
+                    raw: true
+                }).then((user) => {
+                    username = user.username;
+                    Comments.findAll( {
+                        where: {
+                            blogpost_id: blogpost.id
+                        },
+                        raw: true
+                    })
+                    .then((comments) => {
+                        comments.map((comment) => {
+                            Users.findOne({
+                                where: {
+                                    id: comment.user_id
+                                },
+                                raw: true
+                            }).then((user) => {
+                                comment.username = user.username;
+                            });
+                        });
+                        res.render("blogpost", {...blogpost, username, comments});
+                    });
+                }).catch((err) => {
+                    console.log(err);
+                    res.status(400).json({message: "Error retrieving blog owner"});
+                });
+            } else {
+                res.status(400).json({message: "Error retrieving blog"});
+            }
+        }).catch((err) => {
+            console.log(err);
+            res.status(400).json({message: "Error retrieving blog"});
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json(err);
+    }
 });
 
 module.exports = router;

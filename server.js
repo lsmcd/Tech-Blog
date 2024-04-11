@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3001;
 
 const hbs = exphbs.create({ 
     helpers: {
-        formatTime(date) { return `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`}
+        formatTime(date) { return date.toLocaleDateString()}
     }
 });
 

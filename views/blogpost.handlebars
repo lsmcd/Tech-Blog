@@ -1,0 +1,14 @@
+<div class="media-content has-background-dark">
+    <div class="content ml-1">
+        <p>
+            <strong>{{title}}</strong> <small>@{{username}}</small> <small>{{formatTime createdAt}}</small>
+            <br />
+            {{content}}
+        </p>
+    </div>
+    <article class="media has-background-grey-dark p-4">
+        {{#each comments}}
+            {{> commentCard}}
+        {{/each}}
+    </article>
+</div>

@@ -18,7 +18,7 @@ router.post("/signup", (req, res) => {
         res.status(400).json(err);
     }
 });
-router.post("/signin", async (req, res) => {
+router.post("/signin", (req, res) => {
     try {
         Users.findOne({
             where: {
