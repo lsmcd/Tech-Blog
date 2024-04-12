@@ -4,9 +4,15 @@ try {
         if (blogpost){
             blogpost.addEventListener("click", (event) => {
                 event.preventDefault();
-                window.location = `/blogposts/${i}`;
+                window.location = `/dashboard/${i}`;
             });
         }
     }
 } catch (err) {console.log(err)}
 
+const form = document.getElementById("create");
+
+form.addEventListener("click", (event) => {
+    event.preventDefault();
+    window.location = "/dashboard/create";
+});

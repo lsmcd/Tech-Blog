@@ -31,7 +31,36 @@ router.get("/signOut", (req, res) => {
     res.render("signOut");
 });
 router.get("/dashboard", withAuth, (req, res) => {
-    res.render("dashboard");
+    console.log(req.session)
+    BlogPosts.findAll({
+        where: {
+            id: req.session.user_id
+        },
+        raw: true
+    })
+    .then((blogposts) => {
+        res.render("dashboard", {blogposts});
+    });
+});
+router.get("/dashboard/create", withAuth, (req, res) => {
+    res.render("createblogpost");
+});
+router.get("/dashboard/:id", withAuth, (req, res) => {
+    BlogPosts.findOne({
+        where: {
+            id: req.params.id
+        },
+        raw: true
+    })
+    .then((blogpost) => {
+        if (req.session.user_id === data.user_id){
+            res.render("updateblogpost", blogpost);
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(400).json({message: "Error retrieving blog"});
+    });
 });
 router.get("/blogposts/:id", (req, res) => {
     try {
