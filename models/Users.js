@@ -21,14 +21,14 @@ Users.init(
             allowNull: false,
             unique: true,
             validate: {
-                len: [4, 12]
+                len: [1, 12]
             }
         },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                len: [4, 12]
+                len: [4, 30]
             }
         }
     },

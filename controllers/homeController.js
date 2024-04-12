@@ -31,16 +31,17 @@ router.get("/signOut", (req, res) => {
     res.render("signOut");
 });
 router.get("/dashboard", withAuth, (req, res) => {
-    console.log(req.session)
+    console.log(req.session.user_id);
     BlogPosts.findAll({
         where: {
-            id: req.session.user_id
+            user_id: req.session.user_id
         },
         raw: true
     })
     .then((blogposts) => {
+        console.log(...blogposts);
         res.render("dashboard", {blogposts});
-    });
+    }).catch((err) => console.log(err));
 });
 router.get("/dashboard/create", withAuth, (req, res) => {
     res.render("createblogpost");
@@ -53,7 +54,7 @@ router.get("/dashboard/:id", withAuth, (req, res) => {
         raw: true
     })
     .then((blogpost) => {
-        if (req.session.user_id === data.user_id){
+        if (req.session.user_id === blogpost.user_id){
             res.render("updateblogpost", blogpost);
         }
     })

@@ -2,22 +2,25 @@ const router = require("express").Router();
 const { Users } = require('../../models');
 
 router.post("/signup", (req, res) => {
-    try {
-        Users.create({
-            username: req.body.username,
-            password: req.body.password
-        }).then((data) => {
-            req.session.save(() => {
-                req.session.user_id = data.id;
-                req.session.logged_in = true;
+    if (13 > (req.body.username).length && (req.body.username).length > 1 && 
+        31 > (req.body.password).length && (req.body.password).length > 4){
+        try {
+            Users.create({
+                username: req.body.username,
+                password: req.body.password
+            }).then((data) => {
+                req.session.save(() => {
+                    req.session.user_id = data.id;
+                    req.session.logged_in = true;
 
-                res.json({message: "Successful sign up"});
+                    res.json({message: "Successful sign up"});
+                });
             });
-        });
-    } catch (err) {
-        res.status(400).json(err);
-    }
-});
+        }
+        catch (err) {
+            res.status(400).json(err);
+        }
+}});
 router.post("/signin", (req, res) => {
     try {
         Users.findOne({
