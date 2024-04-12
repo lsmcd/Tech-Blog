@@ -8,10 +8,10 @@ form.addEventListener("submit", (event) => {
         fetch("/api/blogpost", {
             method: "POST",
             body: JSON.stringify({ title, content }),
-            headers: {"Content-Type": "application/json"}
+            headers: { "Content-Type": "application/json" }
         })
-        .then((res) => res.ok ? window.location = "/dashboard" : alert("Failed to create blogpost"))
-        .catch((err) => console.log(err));
+            .then((res) => res.ok ? window.location = "/dashboard" : alert("Failed to create blogpost"))
+            .catch((err) => console.log(err));
     } else {
         alert("Title length must be between 5 and 20 and content between 5 and 200");
     }

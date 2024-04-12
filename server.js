@@ -13,7 +13,7 @@ const app = express();
 
 const PORT = process.env.PORT || 3001;
 
-const hbs = exphbs.create({ 
+const hbs = exphbs.create({
     helpers: {
         formatTime(date) { return date.toLocaleDateString() }
     }
@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: "123456789",
     store: new SequelizeStore({
-      db: sequelize,
+        db: sequelize,
     }),
     resave: false,
     proxy: true,

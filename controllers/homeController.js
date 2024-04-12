@@ -10,24 +10,24 @@ router.get("/", (req, res) => {
 
         console.log(loginState + " " + loginLogout)
 
-        BlogPosts.findAll( {raw: true} ).then((blogposts) => {
-            res.render("homepage", {blogposts, loginState, loginLogout});
+        BlogPosts.findAll({ raw: true }).then((blogposts) => {
+            res.render("homepage", { blogposts, loginState, loginLogout });
         });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
-router.get("/login", (req, res) => { 
+router.get("/login", (req, res) => {
     res.render("login");
 });
-router.get("/signUp", (req, res) => { 
+router.get("/signUp", (req, res) => {
     res.render("signUp");
 });
-router.get("/signIn", (req, res) => { 
+router.get("/signIn", (req, res) => {
     res.render("signIn");
 });
-router.get("/signOut", (req, res) => { 
+router.get("/signOut", (req, res) => {
     res.render("signOut");
 });
 router.get("/dashboard", withAuth, (req, res) => {
@@ -38,10 +38,10 @@ router.get("/dashboard", withAuth, (req, res) => {
         },
         raw: true
     })
-    .then((blogposts) => {
-        console.log(...blogposts);
-        res.render("dashboard", {blogposts});
-    }).catch((err) => console.log(err));
+        .then((blogposts) => {
+            console.log(...blogposts);
+            res.render("dashboard", { blogposts });
+        }).catch((err) => console.log(err));
 });
 router.get("/dashboard/create", withAuth, (req, res) => {
     res.render("createblogpost");
@@ -53,15 +53,15 @@ router.get("/dashboard/:id", withAuth, (req, res) => {
         },
         raw: true
     })
-    .then((blogpost) => {
-        if (req.session.user_id === blogpost.user_id){
-            res.render("updateblogpost", blogpost);
-        }
-    })
-    .catch((err) => {
-        console.log(err);
-        res.status(400).json({message: "Error retrieving blog"});
-    });
+        .then((blogpost) => {
+            if (req.session.user_id === blogpost.user_id) {
+                res.render("updateblogpost", blogpost);
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).json({ message: "Error retrieving blog" });
+        });
 });
 router.get("/blogposts/:id", (req, res) => {
     try {
@@ -71,45 +71,45 @@ router.get("/blogposts/:id", (req, res) => {
             },
             raw: true
         })
-        .then((blogpost) => {
-            if (blogpost){
-                Users.findOne({
-                    where: {
-                        id: blogpost.user_id
-                    },
-                    raw: true
-                }).then((user) => {
-                    username = user.username;
-                    Comments.findAll( {
+            .then((blogpost) => {
+                if (blogpost) {
+                    Users.findOne({
                         where: {
-                            blogpost_id: blogpost.id
+                            id: blogpost.user_id
                         },
                         raw: true
-                    })
-                    .then((comments) => {
-                        comments.map((comment) => {
-                            Users.findOne({
-                                where: {
-                                    id: comment.user_id
-                                },
-                                raw: true
-                            }).then((user) => {
-                                comment.username = user.username;
+                    }).then((user) => {
+                        username = user.username;
+                        Comments.findAll({
+                            where: {
+                                blogpost_id: blogpost.id
+                            },
+                            raw: true
+                        })
+                            .then((comments) => {
+                                comments.map((comment) => {
+                                    Users.findOne({
+                                        where: {
+                                            id: comment.user_id
+                                        },
+                                        raw: true
+                                    }).then((user) => {
+                                        comment.username = user.username;
+                                    });
+                                });
+                                res.render("blogpost", { ...blogpost, username, comments });
                             });
-                        });
-                        res.render("blogpost", {...blogpost, username, comments});
+                    }).catch((err) => {
+                        console.log(err);
+                        res.status(400).json({ message: "Error retrieving blog owner" });
                     });
-                }).catch((err) => {
-                    console.log(err);
-                    res.status(400).json({message: "Error retrieving blog owner"});
-                });
-            } else {
-                res.status(400).json({message: "Error retrieving blog"});
-            }
-        }).catch((err) => {
-            console.log(err);
-            res.status(400).json({message: "Error retrieving blog"});
-        });
+                } else {
+                    res.status(400).json({ message: "Error retrieving blog" });
+                }
+            }).catch((err) => {
+                console.log(err);
+                res.status(400).json({ message: "Error retrieving blog" });
+            });
     } catch (err) {
         console.log(err);
         res.status(400).json(err);

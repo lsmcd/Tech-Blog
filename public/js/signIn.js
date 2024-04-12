@@ -8,10 +8,10 @@ form.addEventListener("submit", (event) => {
         fetch("/api/users/signin", {
             method: "POST",
             body: JSON.stringify({ username, password }),
-            headers: {"Content-Type": "application/json"}
+            headers: { "Content-Type": "application/json" }
         })
-        .then((res) => res.ok ? window.location = "/" : alert("Failed to log in"))
-        .catch((err) => console.log(err));
+            .then((res) => res.ok ? window.location = "/" : alert("Failed to log in"))
+            .catch((err) => console.log(err));
     } else {
         alert("Password length must be between 4 and 30 and Usernames between 1 and 12");
     }
