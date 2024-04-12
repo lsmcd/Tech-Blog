@@ -2,7 +2,7 @@ const router = require("express").Router();
 const { Users } = require('../../models');
 
 router.post("/signup", (req, res) => {
-    if (13 > (req.body.username).length && (req.body.username).length > 1 &&
+    if (13 > (req.body.username).length && (req.body.username).length > 2 &&
         31 > (req.body.password).length && (req.body.password).length > 4) {
         try {
             Users.create({
